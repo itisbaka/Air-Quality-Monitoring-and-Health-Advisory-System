@@ -35,3 +35,7 @@ class AQIReadingSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['created_by'] = self.context['request'].user
         return super().create(validated_data)
+    def validate_aqi_value(self, value):
+        if value < 0 or value > 500:
+              raise serializers.ValidationError("AQI must be between 0 and 500")
+        return value

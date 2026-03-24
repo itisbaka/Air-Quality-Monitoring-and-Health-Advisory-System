@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Location(models.Model):
     """A physical location where AQI readings are recorded."""
@@ -22,8 +22,8 @@ class AQIReading(models.Model):
         IMPORT = 'import', 'Import'
 
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='readings')
-    timestamp = models.DateTimeField()
-    aqi_value = models.PositiveIntegerField()
+    timestamp = models.DateTimeField(null=True, blank=True)
+    aqi_value = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(500)])
     source_type = models.CharField(
         max_length=16,
         choices=SourceType.choices,

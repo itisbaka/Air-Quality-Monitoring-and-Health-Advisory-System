@@ -62,7 +62,7 @@ export default function AQIForm({ onSuccess }) {
 
       await createAQIReading({
         location_id: selectedLocationId,
-        timestamp: recordedAt,
+        timestamp: new Date(recordedAt).toISOString(),
         aqi_value: Number(aqi),
         source_type: sourceType,
         pm25: pm25 ? Number(pm25) : null,
@@ -124,7 +124,7 @@ export default function AQIForm({ onSuccess }) {
             onChange={(e) => setLocationId(e.target.value)}
             className="w-full rounded border border-slate-300 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-400"
           >
-            {locationOptions}
+           {locationOptions}
           </select>
         )}
       </div>
@@ -151,6 +151,7 @@ export default function AQIForm({ onSuccess }) {
             id="aqi"
             type="number"
             min={0}
+            max={500}
             value={aqi}
             onChange={(e) => setAqi(e.target.value)}
             required

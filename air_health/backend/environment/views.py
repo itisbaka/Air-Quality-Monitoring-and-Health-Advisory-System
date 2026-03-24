@@ -24,4 +24,9 @@ class AQIReadingListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         # For now, all authenticated users see all readings.
-        return super().get_queryset()
+        location_id = self.request.query_params.get('location')
+        queryset = super().get_queryset()
+        if location_id:
+           queryset = queryset.filter(location_id=location_id)
+
+        return queryset
